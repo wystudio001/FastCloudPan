@@ -12,18 +12,18 @@ public class OneTwoThreeFile implements PanFile
 
 ## 字段说明
 
-| 字段名 | 类型 | 描述 |
-|--------|------|------|
-| `fileName` | `String` | 文件/文件夹名称 |
-| `fileId` | `int` | 文件唯一ID |
-| `type` | `int` | 类型：`0`=文件，`1`=文件夹 |
-| `size` | `long` | 文件大小（字节），文件夹为 `0` |
-| `etag` | `String` | 文件MD5哈希值 |
-| `status` | `int` | 审核状态（≥100表示审核驳回） |
-| `parentFileId` | `int` | 父目录ID |
-| `category` | `int` | 文件分类：`0`=未知，`1`=音频，`2`=视频，`3`=图片 |
-| `trashed` | `int` | 回收站标记：`0`=否，`1`=是 |
-| `updateAt` | `String` | 最后修改时间（格式：`yyyy-MM-dd HH:mm:ss`） |
+| 字段名            | 类型       | 描述                               |
+|----------------|----------|----------------------------------|
+| `fileName`     | `String` | 文件/文件夹名称                         |
+| `fileId`       | `int`    | 文件唯一ID                           |
+| `type`         | `int`    | 类型：`0`=文件，`1`=文件夹                |
+| `size`         | `long`   | 文件大小（字节），文件夹为 `0`                |
+| `etag`         | `String` | 文件MD5哈希值                         |
+| `status`       | `int`    | 审核状态（≥100表示审核驳回）                 |
+| `parentFileId` | `int`    | 父目录ID                            |
+| `category`     | `int`    | 文件分类：`0`=未知，`1`=音频，`2`=视频，`3`=图片 |
+| `trashed`      | `int`    | 回收站标记：`0`=否，`1`=是                |
+| `updateAt`     | `String` | 最后修改时间（格式：`yyyy-MM-dd HH:mm:ss`） |
 
 ---
 

@@ -12,20 +12,20 @@ public class OneTwoThreeUserInfo implements UserInfo
 
 ## 字段说明
 
-| 字段名 | 类型 | 描述 |
-|--------|------|------|
-| `uid` | `int` | 用户唯一ID |
-| `nickName` | `String` | 用户昵称 |
-| `headImage` | `String` | 头像URL |
-| `passport` | `String` | 绑定的手机号 |
-| `mail` | `String` | 绑定的邮箱地址 |
-| `spaceUsed` | `long` | 已使用的存储空间（字节） |
-| `spacePermanent` | `long` | 永久存储空间配额（字节） |
-| `spaceTemp` | `long` | 临时存储空间配额（字节） |
-| `spaceTempExpr` | `String` | 临时空间到期时间（格式：`yyyy-MM-dd HH:mm:ss`） |
-| `isVip` | `boolean` | 是否是VIP会员 |
-| `directTraffic` | `int` | 剩余直链流量（MB） |
-| `isHideUID` | `boolean` | 直链是否隐藏用户UID |
+| 字段名              | 类型        | 描述                                 |
+|------------------|-----------|------------------------------------|
+| `uid`            | `int`     | 用户唯一ID                             |
+| `nickName`       | `String`  | 用户昵称                               |
+| `headImage`      | `String`  | 头像URL                              |
+| `passport`       | `String`  | 绑定的手机号                             |
+| `mail`           | `String`  | 绑定的邮箱地址                            |
+| `spaceUsed`      | `long`    | 已使用的存储空间（字节）                       |
+| `spacePermanent` | `long`    | 永久存储空间配额（字节）                       |
+| `spaceTemp`      | `long`    | 临时存储空间配额（字节）                       |
+| `spaceTempExpr`  | `String`  | 临时空间到期时间（格式：`yyyy-MM-dd HH:mm:ss`） |
+| `isVip`          | `boolean` | 是否是VIP会员                           |
+| `directTraffic`  | `int`     | 剩余直链流量（MB）                         |
+| `isHideUID`      | `boolean` | 直链是否隐藏用户UID                        |
 
 ---
 
@@ -93,22 +93,22 @@ public String getMail()
 
 ### 存储空间相关方法
 
-| 方法名 | 返回类型 | 说明 |
-|--------|----------|------|
-| `getSpaceUsed()` | `long` | 已用空间（字节） |
-| `getSpacePermanent()` | `long` | 永久空间配额（字节） |
-| `getSpaceTemp()` | `long` | 临时空间配额（字节） |
-| `getSpaceTempExpr()` | `String` | 临时空间到期时间 |
+| 方法名                   | 返回类型     | 说明         |
+|-----------------------|----------|------------|
+| `getSpaceUsed()`      | `long`   | 已用空间（字节）   |
+| `getSpacePermanent()` | `long`   | 永久空间配额（字节） |
+| `getSpaceTemp()`      | `long`   | 临时空间配额（字节） |
+| `getSpaceTempExpr()`  | `String` | 临时空间到期时间   |
 
 ---
 
 ### 会员相关方法
 
-| 方法名 | 返回类型 | 说明 |
-|--------|----------|------|
-| `isVip()` | `boolean` | 是否是VIP会员 |
-| `getDirectTraffic()` | `int` | 剩余直链流量（MB） |
-| `isHideUID()` | `boolean` | 直链是否隐藏UID |
+| 方法名                  | 返回类型      | 说明         |
+|----------------------|-----------|------------|
+| `isVip()`            | `boolean` | 是否是VIP会员   |
+| `getDirectTraffic()` | `int`     | 剩余直链流量（MB） |
+| `isHideUID()`        | `boolean` | 直链是否隐藏UID  |
 
 ---
 
