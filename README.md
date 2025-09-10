@@ -80,6 +80,12 @@ OneTwoThreePan.getInstance().uploadFile(folderId, filePath, new onUploadListener
     }
 });
 ```
+
+下载文件
+```java
+//要先获取文件的下载地址，然后再通过工具下载
+String downloadUrl = OneTwoThreePan.getInstance().getFileDownloadUrl("fileId");
+```
   
 > 注意：  
 > 123云盘的操作可能会抛出异常，所以需要进行try{}包裹
