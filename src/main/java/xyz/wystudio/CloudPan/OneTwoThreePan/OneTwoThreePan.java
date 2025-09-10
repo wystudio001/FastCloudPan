@@ -18,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 此类为 123云盘 的相关操作实现类
@@ -29,6 +30,8 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
     private String clientId = "";
     private String clientSecret = "";
     private String accessToken;
+
+    private OkHttpClient okHttpClient;
 
     public static OneTwoThreePan getInstance(){
         if (instance == null) {
@@ -47,6 +50,10 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.accessToken = accessToken;
+        this.okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .build();
     }
 
     /**
@@ -58,7 +65,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
      */
     public String[] getAccessToken() throws Exception {
         String url = apiUrl + "/api/v1/access_token";
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode data = mapper.createObjectNode();
@@ -95,7 +102,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
     @Override
     public OneTwoThreeUserInfo getUserInfo() throws Exception {
         String url = apiUrl + "/api/v1/user/info";
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
 
         Request request = createRequest("GET",url,"");
 
@@ -126,7 +133,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
         int lastFileId = 0;
 
         while (lastFileId != -1) {
-            OkHttpClient client = new OkHttpClient();
+            OkHttpClient client = okHttpClient;
             Request request = createRequest("GET",url + lastFileId,"");
             Response response = client.newCall(request).execute();
 
@@ -154,7 +161,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
      */
     public boolean moveFileToTrash(String fileId) throws Exception {
         String url = apiUrl + "/api/v1/file/trash";
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode data = mapper.createObjectNode();
@@ -183,7 +190,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
         }
 
         String url = apiUrl + "/api/v1/file/delete";
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
 
         ObjectMapper mapper = new ObjectMapper();
         ArrayNode data = mapper.createObjectNode().arrayNode();
@@ -207,7 +214,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
     @Override
     public boolean renameFile(String fileId, String newName) throws Exception {
         String url = apiUrl + "/api/v1/file/name";
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode data = mapper.createObjectNode();
@@ -231,7 +238,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
     @Override
     public boolean moveFile(String fileId, String newFolderId) throws Exception {
         String url = apiUrl + "/api/v1/file/move";
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode data = mapper.createObjectNode();
@@ -255,7 +262,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
     @Override
     public OneTwoThreeFile getFileInfo(String fileId) throws Exception {
         String url = apiUrl + "/api/v1/file/detail?fileID=" + fileId;
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
 
         Request request = createRequest("GET",url,"");
         Response response = client.newCall(request).execute();
@@ -280,7 +287,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
     @Override
     public String createFolder(String parent, String name) throws Exception {
         String url = apiUrl + "/api/v1/file/mkdir";
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode data = mapper.createObjectNode();
         data.put("name", name);
@@ -445,7 +452,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
     private JsonNode createOrReUseFile(int parentFileID,String fileName,String md5,long size) throws Exception {
         String url = apiUrl + "/upload/v1/file/create";
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode data = mapper.createObjectNode();
         data.put("parentFileID", parentFileID);
@@ -472,7 +479,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
     private JsonNode getUploadSliceUrl(String preuploadID,int sliceNo) throws Exception {
         String url = apiUrl + "/upload/v1/file/get_upload_url";
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode data = mapper.createObjectNode();
         data.put("preuploadID", preuploadID);
@@ -493,7 +500,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
      * @throws Exception 出现异常则抛出
      */
     private boolean uploadSlice(String url,byte[] data) throws Exception {
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
 
         Request request = new Request.Builder()
                 .url(url)
@@ -518,7 +525,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
      */
     private JsonNode listUploadedSlice(String preuploadID) throws Exception {
         String url = apiUrl + "/upload/v1/file/list_upload_parts";
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode data = mapper.createObjectNode();
         data.put("preuploadID", preuploadID);
@@ -541,7 +548,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
      */
     private JsonNode noticeUploadComplete(String preuploadID) throws Exception {
         String url = apiUrl + "/upload/v1/file/upload_complete";
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode data = mapper.createObjectNode();
         data.put("preuploadID", preuploadID);
@@ -563,7 +570,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
      */
     private JsonNode asyncGetUploadResult(String preuploadID) throws Exception {
         String url = apiUrl + "/upload/v1/file/upload_async_result";
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = okHttpClient;
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode data = mapper.createObjectNode();
         data.put("preuploadID", preuploadID);
@@ -572,6 +579,23 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
         Response response = client.newCall(request).execute();
 
         return handleResponseByData(response);
+    }
+
+    /**
+     * 获取文件下载链接
+     *
+     * @param fileId 文件id
+     * @return 文件下载链接
+     * @throws Exception 如果响应不为空，但code也不为0，则抛出装有message字段对应的异常
+     */
+    public String getFileDownloadUrl(String fileId) throws Exception {
+        String url = apiUrl + "/api/v1/file/download_info" + "?fileId=" + fileId;
+        OkHttpClient client = okHttpClient;
+
+        Request request = createRequest("GET",url,"");
+        Response response = client.newCall(request).execute();
+
+        return handleResponseByData(response).get("downloadUrl").asText();
     }
 
     /**
