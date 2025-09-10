@@ -286,7 +286,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
      */
     @Override
     public String createFolder(String parent, String name) throws Exception {
-        String url = apiUrl + "/api/v1/file/mkdir";
+        String url = apiUrl + "/upload/v1/file/mkdir";
         OkHttpClient client = okHttpClient;
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode data = mapper.createObjectNode();
