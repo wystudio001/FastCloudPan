@@ -609,23 +609,24 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
      * @throws Exception 如果出现错误则抛出对应异常
      */
     private Request createRequest(String method, String url, String body) throws Exception {
-        return switch (method) {
-            case "GET" -> new Request.Builder()
-                    .url(url)
-                    .get()
-                    .addHeader("Authorization", "Bearer " + accessToken)
-                    .addHeader("platform", "open_platform")
-                    .build();
-            case "POST" -> new Request.Builder()
-                    .url(url)
-                    .post(RequestBody.create(body, MediaType.get("application/json; charset=utf-8")))
-                    .addHeader("Authorization", "Bearer " + accessToken)
-                    .addHeader("platform", "open_platform")
-                    .build();
-            default -> new Request.Builder()
-                    .build();
-        };
+        Request.Builder builder = new Request.Builder().url(url);
+        switch (method) {
+            case "GET":
+                builder.get()
+                        .addHeader("Authorization", "Bearer " + accessToken)
+                        .addHeader("platform", "open_platform");
+                break;
+            case "POST":
+                builder.post(RequestBody.create(body, MediaType.get("application/json; charset=utf-8")))
+                        .addHeader("Authorization", "Bearer " + accessToken)
+                        .addHeader("platform", "open_platform");
+                break;
+            default:
+                break;
+        }
+        return builder.build();
     }
+
 
     /**
      * 获取响应中 data 字段内容
