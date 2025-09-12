@@ -30,15 +30,41 @@ public class OneTwoThreeFile implements PanFile {
 
     public OneTwoThreeFile(JsonNode node){
         this.fileName = node.get("filename").asText();
-        this.fileId = node.get("fileId").asInt();
+
+        if (node.has("fileId")){
+            this.fileId = node.get("fileId").asInt();
+        } else if (node.has("fileID")) {
+            this.fileId = node.get("fileID").asInt();
+        }
+
         this.type = node.get("type").asInt();
         this.size = node.get("size").asLong();
         this.etag = node.get("etag").asText();
         this.status = node.get("status").asInt();
-        this.parentFileId = node.get("parentFileId").asInt();
-        this.category = node.get("category").asInt();
+
+        if (node.has("parentFileId")){
+            this.parentFileId = node.get("parentFileId").asInt();
+        } else if (node.has("parentFileID")) {
+            this.parentFileId = node.get("parentFileID").asInt();
+        } else {
+            this.parentFileId = 0;
+        }
+
+        if (node.has("category")){
+            this.category = node.get("category").asInt();
+        }else {
+            this.category = 0;
+        }
+
         this.trashed = node.get("trashed").asInt();
-        this.updateAt = node.get("updateAt").asText();
+
+        if (node.has("updateAt")){
+            this.updateAt = node.get("updateAt").asText();
+        } else if (node.has("createAt")) {
+            this.updateAt = node.get("createAt").asText();
+        }else {
+            this.updateAt = "未知";
+        }
     }
 
     @Override
