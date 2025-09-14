@@ -221,7 +221,7 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
         data.put("fileId", Integer.parseInt(fileId));
         data.put("fileName", newName);
 
-        Request request = createRequest("POST",url,data.toString());
+        Request request = createRequest("PUT",url,data.toString());
         Response response = client.newCall(request).execute();
 
         return handleResponseByMessage(response);
@@ -618,6 +618,11 @@ public class OneTwoThreePan implements Pan<OneTwoThreeFile,OneTwoThreeUserInfo> 
                 break;
             case "POST":
                 builder.post(RequestBody.create(body, MediaType.get("application/json; charset=utf-8")))
+                        .addHeader("Authorization", "Bearer " + accessToken)
+                        .addHeader("platform", "open_platform");
+                break;
+            case "PUT":
+                builder.put(RequestBody.create(body, MediaType.get("application/json; charset=utf-8")))
                         .addHeader("Authorization", "Bearer " + accessToken)
                         .addHeader("platform", "open_platform");
                 break;
